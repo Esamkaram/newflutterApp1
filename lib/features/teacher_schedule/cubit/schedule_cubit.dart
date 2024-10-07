@@ -5,14 +5,13 @@ import 'package:flutter_application_2/core/cach/cach_key.dart';
 import 'package:flutter_application_2/core/network/dio_hleper.dart';
 import 'package:flutter_application_2/core/network/end_ponts.dart';
 import 'package:flutter_application_2/features/teacher_schedule/model/schedule_model.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'schedule_state.dart';
 
-ScheduleModel? scheduleModel;
-
 class ScheduleCubit extends Cubit<ScheduleState> {
   ScheduleCubit() : super(ScheduleInitial());
+  ScheduleModel? scheduleModel;
 
   void getScheduleteacher() async {
     emit(ScheduleLodingstate());
@@ -22,6 +21,7 @@ class ScheduleCubit extends Cubit<ScheduleState> {
         token: CacheHelper.getDate(key: ChachKey.userToken));
     if (response.statusCode == 200) {
       scheduleModel = ScheduleModel.fromJson(response.data);
+      print(scheduleModel);
       emit(ScheduleSuccessState());
     } else {
       emit(ScheduleErrorState());

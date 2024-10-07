@@ -15,7 +15,7 @@ class CustomBottomContainer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          width: 20.0,
+          width: double.infinity,
           height: 60.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(21.0),
