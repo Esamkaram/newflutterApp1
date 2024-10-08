@@ -13,11 +13,13 @@ class ScheduleCubit extends Cubit<ScheduleState> {
   ScheduleCubit() : super(ScheduleInitial());
   ScheduleModel? scheduleModel;
 
-  void getScheduleteacher() async {
+  void getScheduleteacher({
+    required int tea , required int matt 
+  }) async {
     emit(ScheduleLodingstate());
     Response response = await DioHelper.getData(
         endpont: EndPonts.getTeacherProfile,
-        query: {"tea": '160', "matt": '1'},
+        query: {"tea": tea , "matt": matt },
         token: CacheHelper.getDate(key: ChachKey.userToken));
     if (response.statusCode == 200) {
       scheduleModel = ScheduleModel.fromJson(response.data);

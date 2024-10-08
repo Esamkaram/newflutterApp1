@@ -35,6 +35,8 @@ class LoginCubit extends Cubit<LoginState> {
           key: ChachKey.username, value: usermodel!.data!.data!.sTUDENTNAME);
       await CacheHelper.saveData(
           key: ChachKey.userImage, value: usermodel!.data!.data!.sTUDENTImg);
+      await CacheHelper.saveData(
+          key: ChachKey.stidentId, value: usermodel!.data!.data!.sTUDENTID!);
 
       showToast(message: 'Login is Success !!', state: ToastStates.sUCCESS);
       emit(LoginSuccessState());

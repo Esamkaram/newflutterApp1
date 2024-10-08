@@ -10,7 +10,10 @@ class CategoryItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.push(TeacherScreen(techerlist: model.teacher!));
+        context.push(TeacherScreen(
+          techerlist: model.teacher!,
+          matter: model.matterId!,
+        ));
       },
       child: Column(
         children: [

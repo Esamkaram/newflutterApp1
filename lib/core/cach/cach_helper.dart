@@ -1,5 +1,6 @@
+import 'dart:convert';
 
-
+import 'package:flutter_application_2/features/card/model/carde_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper {
@@ -36,5 +37,33 @@ class CacheHelper {
     required String key,
   }) async {
     return await sharedPreferences.remove(key);
+  }
+
+  static Future<bool> saveCardeList({
+    required String key,
+    required List<Carde> cardeList,
+  }) async {
+    List<String> jsonList =
+        cardeList.map((carde) => jsonEncode(carde.toJson())).toList();
+    return await sharedPreferences.setStringList(key, jsonList);
+  }
+
+  static List<Carde> getCardeList({
+    required String key,
+  }) {
+    List<String>? jsonList = sharedPreferences.getStringList(key);
+    if (jsonList != null) {
+      return jsonList.map((json) => Carde.fromJson(jsonDecode(json))).toList();
+    }
+    return [];
+  }
+
+  static Future<void> addCardeToList({
+    required String key,
+    required Carde newCarde,
+  }) async {
+    List<Carde> currentList = getCardeList(key: key);
+    currentList.add(newCarde);
+    await saveCardeList(key: key, cardeList: currentList);
   }
 }

@@ -31,17 +31,32 @@ class HomeScreen extends StatelessWidget {
             title: const Text(
               'Home',
             ),
-            actions: const [
-              Stack(
-                children: [
-                  Icon(
-                    Icons.notifications_rounded,
-                  ),
-                  CircleAvatar(
-                    backgroundColor: Colors.red,
-                    maxRadius: 5.0,
-                  )
-                ],
+            actions: [
+              InkWell(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => Center(
+                            child: Container(
+                              color: Colors.amberAccent,
+                              child: const Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [Text('ShowDialoG')],
+                              ),
+                            ),
+                          ));
+                },
+                child: const Stack(
+                  children: [
+                    Icon(
+                      Icons.notifications_rounded,
+                    ),
+                    CircleAvatar(
+                      backgroundColor: Colors.red,
+                      maxRadius: 5.0,
+                    )
+                  ],
+                ),
               ),
             ],
           ),
