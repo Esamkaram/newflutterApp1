@@ -9,26 +9,37 @@ part 'card_state.dart';
 class CardCubit extends Cubit<CardState> {
   CardCubit() : super(CardInitial());
 
-  void addCard(String studentId, int matter, int teacher, String timeTh) async {
+  void addCard(String studentId, int matter, int teacher, String timeTh,
+      int dayId, String dayName, String teacherName) async {
     emit(CardLoading());
     Carde newCarde = Carde(
         studentId: studentId,
         teacherId: teacher,
         matterId: matter,
-        timeTh: timeTh);
+        timeTh: timeTh,
+        dayID: dayId,
+        dayName: dayName,
+        teacherName: teacherName);
 
     await CacheHelper.addCardeToList(
         key: ChachKey.studentList, newCarde: newCarde);
+    await getCard();
+    emit(CardSuccessStates());
   }
 
-  void getCard() {
-    // Retrieve the updated list
-    List<Carde> retrievedList = CacheHelper.getCardeList(key: 'cardeList');
+  List<Carde> retrievedList = [];
 
+  Future<void> getCard() async {
+    // Retrieve the updated list
+    emit(getCardLoading());
+    retrievedList = await CacheHelper.getCardeList(key: ChachKey.studentList);
+
+    emit(getCardSuccessStates());
+    print(retrievedList.length);
     // Print retrieved data
     for (var carde in retrievedList) {
       print(
-          'Student ID: ${carde.studentId}, Teacher ID: ${carde.teacherId}, Matter ID: ${carde.matterId}, Time: ${carde.timeTh}');
+          'Student ID: ${carde.studentId}, Teacher ID: ${carde.teacherId}, Matter ID: ${carde.matterId}, Time: ${carde.timeTh} , Day ID: ${carde.dayID} , Day Name: ${carde.dayName} , Teacher Name : ${carde.teacherName} ');
     }
   }
 }

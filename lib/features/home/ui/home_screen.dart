@@ -6,9 +6,13 @@ import 'package:flutter_application_2/core/cach/cach_helper.dart';
 import 'package:flutter_application_2/core/cach/cach_key.dart';
 import 'package:flutter_application_2/core/functions/navicator.dart';
 import 'package:flutter_application_2/core/widgets/custom_bottom_container.dart';
+import 'package:flutter_application_2/core/widgets/custom_divider.dart';
 import 'package:flutter_application_2/core/widgets/custom_textform.dart';
+import 'package:flutter_application_2/features/card/cubit/card_cubit.dart';
+import 'package:flutter_application_2/features/card/ui/card_screen.dart';
 import 'package:flutter_application_2/features/home/cubit/home_cubit.dart';
 import 'package:flutter_application_2/features/home/model/offer_model.dart';
+import 'package:flutter_application_2/features/home/ui/item_list_screen.dart';
 import 'package:flutter_application_2/features/home/widgets/category_item_widget.dart';
 import 'package:flutter_application_2/features/login/cubit/login_cubit.dart';
 import 'package:flutter_application_2/features/login/ui/login_screen.dart';
@@ -143,17 +147,36 @@ class HomeScreen extends StatelessWidget {
                 )
               : const CircularProgressIndicator(),
           drawer: Drawer(
-            backgroundColor: Colors.blue[400],
+            backgroundColor: Colors.white,
             child: SafeArea(
               child: Column(
                 children: [
-                  Container(
-                    child: CachedNetworkImage(
-                        imageUrl: CacheHelper.getDate(
-                                key: ChachKey.userImage) ??
-                            'https://img.freepik.com/premium-photo/managing-user-permissions-roles-ecommerce-platforms_1104763-19809.jpg'),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            'https://img.freepik.com/premium-photo/managing-user-permissions-roles-ecommerce-platforms_1104763-19809.jpg',
+                        height: 200.0,
+                        width: 200.0,
+                      ),
+                    ),
                   ),
-                  InkWell(
+                  const CustomDivider(),
+                  const SizedBox(
+                    height: 50.0,
+                  ),
+                  ItemListScreen(
+                    name: 'سلة المواد',
+                    iconedata: Icons.list_alt_outlined,
+                    onTap: () async {
+                      context.push(BlocProvider(
+                        create: (context) => CardCubit()..getCard(),
+                        child: const CardScreen(),
+                      ));
+                    },
+                  ),
+                  ItemListScreen(
                     onTap: () async {
                       await CacheHelper.removeDate(key: ChachKey.userToken);
                       context.pushAndRemoveUntil(BlocProvider(
@@ -161,13 +184,8 @@ class HomeScreen extends StatelessWidget {
                         child: const LoginScreen(),
                       ));
                     },
-                    child: Container(
-                      child: const Text(
-                        'LogOut',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
-                    ),
+                    name: 'نسجيل خروج',
+                    iconedata: Icons.logout_outlined,
                   ),
                 ],
               ),

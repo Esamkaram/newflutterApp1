@@ -27,7 +27,10 @@ class ScheduleScreen extends StatelessWidget {
                         child: CardScheduleWidget(
                           schedule: scheduleCubit
                               .scheduleModel!.date!.schedule![index],
-                              teacher: scheduleCubit.scheduleModel!.date!.teacherId!,
+                          teacher:
+                              scheduleCubit.scheduleModel!.date!.teacherId!,
+                          teacherName:
+                              scheduleCubit.scheduleModel!.date!.teacherName!,
                         ),
                       ),
                   separatorBuilder: (context, index) => const SizedBox(

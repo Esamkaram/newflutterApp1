@@ -48,9 +48,9 @@ class CacheHelper {
     return await sharedPreferences.setStringList(key, jsonList);
   }
 
-  static List<Carde> getCardeList({
+  static Future<List<Carde>> getCardeList({
     required String key,
-  }) {
+  }) async {
     List<String>? jsonList = sharedPreferences.getStringList(key);
     if (jsonList != null) {
       return jsonList.map((json) => Carde.fromJson(jsonDecode(json))).toList();
@@ -62,7 +62,7 @@ class CacheHelper {
     required String key,
     required Carde newCarde,
   }) async {
-    List<Carde> currentList = getCardeList(key: key);
+    List<Carde> currentList = await getCardeList(key: key);
     currentList.add(newCarde);
     await saveCardeList(key: key, cardeList: currentList);
   }

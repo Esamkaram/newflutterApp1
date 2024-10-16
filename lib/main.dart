@@ -19,7 +19,7 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   await DioHelper.init();
   await CacheHelper.init();
-
+  // await CacheHelper.removeDate(key: ChachKey.studentList);
   runApp(
     EasyLocalization(
         supportedLocales: const [Locale('en', 'US'), Locale('ar', 'EG')],

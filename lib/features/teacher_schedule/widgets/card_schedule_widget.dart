@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/core/cach/cach_helper.dart';
 import 'package:flutter_application_2/core/cach/cach_key.dart';
 import 'package:flutter_application_2/core/functions/navicator.dart';
 import 'package:flutter_application_2/core/widgets/custom_bottom_container.dart';
@@ -10,9 +11,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CardScheduleWidget extends StatelessWidget {
   const CardScheduleWidget(
-      {super.key, required this.schedule, required this.teacher});
+      {super.key,
+      required this.schedule,
+      required this.teacher,
+      required this.teacherName});
   final Schedule schedule;
   final int teacher;
+  final String teacherName;
   @override
   Widget build(BuildContext context) {
     // CardCubit cardCubit = CardCubit();
@@ -80,17 +85,35 @@ class CardScheduleWidget extends StatelessWidget {
               const SizedBox(
                 height: 10.0,
               ),
-              CustomBottomContainer(
-                onTap: () {
-                  CardCubit().addCard(ChachKey.stidentId,
-                      int.parse(schedule.dAYID!), teacher, schedule.tIMETH!);
-                  context.pushAndRemoveUntil(BlocProvider(
-                    create: (context) => HomeCubit()..getHomeOfffers(),
-                    child: const HomeScreen(),
-                  ));
-                },
-                buIcon: Icons.add,
-                butext: 'اضافة للسلة ',
+              BlocProvider(
+                create: (context) => CardCubit(),
+                child: BlocConsumer<CardCubit, CardState>(
+                  listener: (context, state) {
+                    if (state is CardSuccessStates) {
+                      context.pushAndRemoveUntil(BlocProvider(
+                        create: (context) => HomeCubit()..getHomeOfffers(),
+                        child: const HomeScreen(),
+                      ));
+                    }
+                  },
+                  builder: (context, state) {
+                    return CustomBottomContainer(
+                      onTap: () {
+                        context.read<CardCubit>().addCard(
+                            CacheHelper.getDate(key: ChachKey.stidentId)
+                                .toString(),
+                            int.parse(schedule.dAYID!),
+                            teacher,
+                            schedule.tIMETH!,
+                            int.parse(schedule.dAYID!),
+                            schedule.dAYNAME!,
+                            teacherName);
+                      },
+                      buIcon: Icons.add,
+                      butext: 'اضافة للسلة ',
+                    );
+                  },
+                ),
               )
             ],
           ),
