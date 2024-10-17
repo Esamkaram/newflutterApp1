@@ -11,6 +11,10 @@ final class CardSuccessStates extends CardState {}
 
 final class CardErrorStates extends CardState {}
 
-final class getCardLoading extends CardState {}
+final class GetCardLoading extends CardState {}
 
-final class getCardSuccessStates extends CardState {}
+final class GetCardSuccessStates extends CardState {}
+
+
+
+final class RemoveItemSuccessStates extends CardState {}

@@ -29,14 +29,21 @@ class CardCubit extends Cubit<CardState> {
 
   List<Carde> retrievedList = [];
 
+  void removeItem(int index) {
+    retrievedList.removeAt(index);
+    emit(RemoveItemSuccessStates());
+    CacheHelper.removeIndexCardeList(key: ChachKey.studentList, index: index);
+  }
+
   Future<void> getCard() async {
     // Retrieve the updated list
-    emit(getCardLoading());
+    emit(GetCardLoading());
     retrievedList = await CacheHelper.getCardeList(key: ChachKey.studentList);
 
-    emit(getCardSuccessStates());
+    emit(GetCardSuccessStates());
     print(retrievedList.length);
     // Print retrieved data
+
     for (var carde in retrievedList) {
       print(
           'Student ID: ${carde.studentId}, Teacher ID: ${carde.teacherId}, Matter ID: ${carde.matterId}, Time: ${carde.timeTh} , Day ID: ${carde.dayID} , Day Name: ${carde.dayName} , Teacher Name : ${carde.teacherName} ');

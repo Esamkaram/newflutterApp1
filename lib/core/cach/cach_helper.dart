@@ -66,4 +66,17 @@ class CacheHelper {
     currentList.add(newCarde);
     await saveCardeList(key: key, cardeList: currentList);
   }
+
+  static Future<List<Carde>> removeIndexCardeList({
+    required String key,
+    required int index,
+  }) async {
+    List<Carde> currentList = await getCardeList(key: key);
+    if (index >= 0 && index < currentList.length) {
+      currentList.removeAt(index); // Remove the carde at the specified index
+      await saveCardeList(
+          key: key, cardeList: currentList); // Update the cached list
+    }
+    return currentList; // Return the updated list
+  }
 }

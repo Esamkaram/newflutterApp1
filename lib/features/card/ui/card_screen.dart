@@ -17,10 +17,12 @@ class CardScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(),
-          body: (state is! getCardLoading)
+          body: (state is! GetCardLoading)
               ? ListView.separated(
-                  itemBuilder: (context, index) =>
-                      ItemCardList(carde: cardCubit.retrievedList[index]),
+                  itemBuilder: (context, index) => ItemCardList(
+                      carde: cardCubit.retrievedList[index],
+                      cardCubit: cardCubit,
+                      index: index),
                   separatorBuilder: (context, index) => const SizedBox(
                         height: 10.0,
                       ),
